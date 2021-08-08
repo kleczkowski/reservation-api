@@ -1,0 +1,73 @@
+cabal-version:              2.4
+name:                       reservation-api
+version:                    1.0.0
+synopsis:                   An example of Polysemy usage
+description:                Please refer to [README.md](https://github.com/kleczkowski/file-hosting-api#readme) file.
+homepage:                   https://github.com/kleczkowski/reservation-api
+bug-reports:                https://github.com/kleczkowski/reservation-api/issues
+license:                    MIT
+license-file:               LICENSE
+author:                     Konrad Kleczkowski
+maintainer:                 Konrad Kleczkowski <konrad.kleczkowski@gmail.com>
+copyright:                  2021 Konrad Kleczkowski
+category:                   Web, Polysemy
+extra-source-files:         README.md
+tested-with:                GHC == 8.10.4
+
+source-repository head
+    type:                   git
+    location:               git@github.com:kleczkowski/reservation-api.git
+
+common common-stanza
+    ghc-options:            -O2 
+                            -Wall 
+                            -Wcompat
+                            -fhide-source-paths
+                            -flate-specialise 
+                            -fspecialise-aggressively
+                            -fplugin=Polysemy.Plugin
+    default-language:       Haskell2010
+    default-extensions:     OverloadedStrings
+                          , DeriveAnyClass
+                          , DeriveGeneric
+                          , GeneralisedNewtypeDeriving
+                          , DerivingStrategies
+                         -- Extensions required by polysemy
+                          , DataKinds
+                          , FlexibleContexts
+                          , GADTs
+                          , LambdaCase
+                          , PolyKinds
+                          , RankNTypes
+                          , ScopedTypeVariables
+                          , TypeApplications
+                          , TypeOperators
+                          , TypeFamilies
+    mixins:                 base hiding (Prelude)
+                          , relude (Relude as Prelude)
+                          , relude
+    build-depends:          base                == 4.14.*
+                          , relude              == 1.*
+                          , polysemy            == 1.6.*
+                          , polysemy-plugin     == 0.4.*
+                          , time                == 1.*
+                          , aeson               == 1.5.*
+
+library
+    import:                 common-stanza
+    hs-source-dirs:         src
+    exposed-modules:        
+    other-modules:          
+    build-depends:          
+
+test-suite reservation-api-test
+    import:                 common-stanza
+    type:                   exitcode-stdio-1.0
+    hs-source-dirs:         test
+    main-is:                Main.hs
+    other-modules:          
+    build-depends:          reservation-api
+                          , tasty               == 1.4.*
+                          , tasty-hunit         == 0.10.*
+                          , tasty-hedgehog      == 1.1.*
+                          , hedgehog            == 1.*

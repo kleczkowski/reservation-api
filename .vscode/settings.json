@@ -1,0 +1,4 @@
+{
+  "haskell.formattingProvider": "stylish-haskell",
+  "haskell.plugin.importLens.codeActionsOn": false
+}

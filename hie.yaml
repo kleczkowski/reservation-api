@@ -1,0 +1,6 @@
+cradle:
+  cabal:
+    - path: "./src"
+      component: "lib:reservation-api"
+    - path: "./test"
+      component: "test:reservation-api-test"

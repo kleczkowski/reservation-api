@@ -52,11 +52,31 @@ common common-stanza
                           , polysemy-plugin     == 0.4.*
                           , time                == 1.*
                           , aeson               == 1.5.*
+                          , validation          == 1.1.*
+                          , polysemy-log        == 0.2.*
+                          , hedis               == 0.14.*
+                          , binary              == 0.8.*
+                          , servant             == 0.18.*
+                          , servant-server      == 0.18.*
+                          , warp                == 3.3.*
+                          , dhall               == 1.39.*
+
+executable reservation-api
+    import:                 common-stanza
+    hs-source-dirs:         app
+    main-is:                Main.hs
+    build-depends:          reservation-api
 
 library
     import:                 common-stanza
     hs-source-dirs:         src
-    exposed-modules:        
+    exposed-modules:        Reservation.Model
+                            Reservation.UseCase
+                            Reservation.KVS
+                            Reservation.Redis
+                            Reservation.App
+                            Reservation.API
+                            Reservation.Config
     other-modules:          
     build-depends:          
 
@@ -65,7 +85,9 @@ test-suite reservation-api-test
     type:                   exitcode-stdio-1.0
     hs-source-dirs:         test
     main-is:                Main.hs
-    other-modules:          
+    other-modules:          Reservation.UseCaseSpec
+                            Reservation.ModelGen
+                            Reservation.SemUtil
     build-depends:          reservation-api
                           , tasty               == 1.4.*
                           , tasty-hunit         == 0.10.*

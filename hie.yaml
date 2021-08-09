@@ -1,5 +1,7 @@
 cradle:
   cabal:
+    - path: "./app"
+      component: "exe:reservation-api"
     - path: "./src"
       component: "lib:reservation-api"
     - path: "./test"

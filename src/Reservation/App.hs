@@ -25,27 +25,31 @@ createApp cfg = serve reservationAPI (liftServer cfg)
 liftServer :: Config -> ServerT ReservationAPI Handler
 liftServer cfg = hoistServer reservationAPI interpretServer reservationServer
   where
-    interpretServer
-      :: Sem '[ UseCase.ReservationStor
-              , Error Model.ReservationError
-              , Log
-              , Embed Redis
-              , Input Connection
-              , Input Model.Seats
-              , Embed IO
-              ] a
-      -> Handler a
-    interpretServer s = s
-      & KVS.runKvsAsRedis
-      & Error.runError @Model.ReservationError
-      & Log.interpretLogStderr'
-      & Redis.runRedis
-      & Redis.obtainRedisConnection (cfgRedis cfg)
-      & Input.runInputConst (cfgMaxSeats cfg)
-      & runM
-      & liftToHandler
+    interpretServer ::
+        Sem
+            '[ UseCase.ReservationStor
+             , Error Model.ReservationError
+             , Log
+             , Embed Redis
+             , Input Connection
+             , Input Model.Seats
+             , Embed IO
+             ]
+            a ->
+        Handler a
+    interpretServer s =
+        s
+            & KVS.runKvsAsRedis
+            & Error.runError @Model.ReservationError
+            & Log.interpretLogStderr'
+            & Redis.runRedis
+            & Redis.obtainRedisConnection (cfgRedis cfg)
+            & Input.runInputConst (cfgMaxSeats cfg)
+            & runM
+            & liftToHandler
 
-liftToHandler :: ToJSON e => IO (Either e a) -> Handler a
+liftToHandler :: (ToJSON e) => IO (Either e a) -> Handler a
 liftToHandler = Handler . ExceptT . fmap handleErr
-  where handleErr (Left e)  = Left (err400 { errBody = encode (toJSON e)})
-        handleErr (Right a) = Right a
+  where
+    handleErr (Left e) = Left (err400{errBody = encode (toJSON e)})
+    handleErr (Right a) = Right a

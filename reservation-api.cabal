@@ -46,20 +46,20 @@ common common-stanza
     mixins:                 base hiding (Prelude)
                           , relude (Relude as Prelude)
                           , relude
-    build-depends:          base                == 4.14.*
-                          , relude              == 1.*
-                          , polysemy            == 1.6.*
-                          , polysemy-plugin     == 0.4.*
-                          , time                == 1.*
-                          , aeson               == 1.5.*
-                          , validation          == 1.1.*
-                          , polysemy-log        == 0.2.*
-                          , hedis               == 0.14.*
-                          , binary              == 0.8.*
-                          , servant             == 0.18.*
-                          , servant-server      == 0.18.*
-                          , warp                == 3.3.*
-                          , dhall               == 1.39.*
+    build-depends:          base              
+                          , relude            
+                          , polysemy          
+                          , polysemy-plugin   
+                          , time              
+                          , aeson             
+                          , validation        
+                          , polysemy-log      
+                          , hedis             
+                          , binary            
+                          , servant           
+                          , servant-server    
+                          , warp              
+                          , dhall           
 
 executable reservation-api
     import:                 common-stanza
@@ -89,7 +89,7 @@ test-suite reservation-api-test
                             Reservation.ModelGen
                             Reservation.SemUtil
     build-depends:          reservation-api
-                          , tasty               == 1.4.*
-                          , tasty-hunit         == 0.10.*
-                          , tasty-hedgehog      == 1.1.*
-                          , hedgehog            == 1.*
+                          , tasty              
+                          , tasty-hunit        
+                          , tasty-hedgehog     
+                          , hedgehog           
